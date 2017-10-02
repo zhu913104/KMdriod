@@ -1,7 +1,7 @@
 import  cv2
 import numpy as np
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 cap.set(3,2840)
 cap.set(4,720)
 widght = int(cap.get(3))
@@ -110,7 +110,6 @@ while(cap.read()):
                         outerpoint = [o3, o2, o1, o4]
                     else:
                         pass
-                    print(Vector2angle(p4-centerpoint,degrees360=True))
                     outerpoint = np.int0(outerpoint)
                     cv2.drawContours(draw_img, [outerpoint], 0, (0, 0, 255), 2)
                     return outerpoint
