@@ -23,7 +23,9 @@ import pyzed.defines as sl
 import pyzed.types as tp
 import pyzed.core as core
 import numpy as np
+import math
 import  cv2
+import time
 
 
 def main():
@@ -63,13 +65,15 @@ def main():
             print("INIT OK")
             # Get and print distance value in mm at the center of the image
             # We measure the distance camera - object using Euclidean distance
-            for height in range(720):
-                for width in range(1280):
+            t = time.time()
+            for height in range(0,720,10):
+                for width in range(0,1280,10):
                     err, point_cloud_value = point_cloud.get_value(width, height)
                     point_cloud_value = np.array(point_cloud_value,np.int)
-                    view[height,width]= np.sqrt(np.sum(np.square(point_cloud_value[:3])))
 
-            print(np.amax(view))
+                    view[height:height+10,width:width+10]= round(np.sqrt(np.sum(np.square(point_cloud_value[:3])))/10000*255)
+
+
             cv2.imshow("xx",view)
             if cv2.waitKey(1) & 0xFF == 27:
                 break
@@ -85,7 +89,7 @@ def main():
             # if not np.isnan(distance) and not np.isinf(distance):
             #     distance = round(distance)
             #     print("Distance to Camera at ({0}, {1}): {2} mm\n".format(x, y, distance))
-
+            print(time.time()-t)
                 # Increment the loop
 
 
