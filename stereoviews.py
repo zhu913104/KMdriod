@@ -22,7 +22,6 @@ import pyzed.camera as zcam
 import pyzed.defines as sl
 import pyzed.types as tp
 import pyzed.core as core
-import math
 import numpy as np
 import  cv2
 
@@ -52,6 +51,7 @@ def main():
     point_cloud = core.PyMat()
 
     while True:
+        view = np.zeros((720,1280), np.uint8)
         # A new image is available if grab() returns PySUCCESS
         if zed.grab(runtime_parameters) == tp.PyERROR_CODE.PySUCCESS:
             # Retrieve left image
@@ -63,17 +63,27 @@ def main():
 
             # Get and print distance value in mm at the center of the image
             # We measure the distance camera - object using Euclidean distance
-            x = round(image.get_width() / 2)
-            y = round(image.get_height() / 2)
-            err, point_cloud_value = point_cloud.get_value(x, y)
+            for height in range(1,image.get_height()):
+                for width in range(1,image.get_width()):
+                    err, point_cloud_value = point_cloud.get_value(width, height)
+                    point_cloud_value = np.array(point_cloud_value,np.int)
+                    view[height,width] = np.sqrt(np.sum(np.square(point_cloud_value[:3])))
+            print(view)
+            cv2.imshow("xx",view)
+            if cv2.waitKey(1) & 0xFF == 27:
+                break
 
-            distance = math.sqrt(point_cloud_value[0] * point_cloud_value[0] +
-                                 point_cloud_value[1] * point_cloud_value[1] +
-                                 point_cloud_value[2] * point_cloud_value[2])
 
-            if not np.isnan(distance) and not np.isinf(distance):
-                distance = round(distance)
-                print("Distance to Camera at ({0}, {1}): {2} mm\n".format(x, y, distance))
+            # x = round(image.get_width() / 2)
+            # y = round(image.get_height() / 2)
+            # err, point_cloud_value = point_cloud.get_value(x, y)
+            # distance = math.sqrt(point_cloud_value[0] * point_cloud_value[0] +
+            #                      point_cloud_value[1] * point_cloud_value[1] +
+            #                      point_cloud_value[2] * point_cloud_value[2])
+            #
+            # if not np.isnan(distance) and not np.isinf(distance):
+            #     distance = round(distance)
+            #     print("Distance to Camera at ({0}, {1}): {2} mm\n".format(x, y, distance))
 
                 # Increment the loop
 
