@@ -53,7 +53,9 @@ def main():
     point_cloud = core.PyMat()
 
     while True:
-        view = np.zeros((720,1280), np.uint8)
+        t = time.time()
+        view = np.zeros((720,1280),np.uint8)
+        viewnl = np.zeros(view.shape,np.int)
         # A new image is available if grab() returns PySUCCESS
         if zed.grab(runtime_parameters) == tp.PyERROR_CODE.PySUCCESS:
             # Retrieve left image
@@ -62,19 +64,20 @@ def main():
             zed.retrieve_measure(depth, sl.PyMEASURE.PyMEASURE_DEPTH)
             # Retrieve colored point cloud. Point cloud is aligned on the left image.
             zed.retrieve_measure(point_cloud, sl.PyMEASURE.PyMEASURE_XYZRGBA)
-            print("INIT OK")
+
             # Get and print distance value in mm at the center of the image
             # We measure the distance camera - object using Euclidean distance
-            t = time.time()
-            for height in range(0,720,10):
-                for width in range(0,1280,10):
+
+            for height in range(8,720,11):
+                for width in range(8,1280,11):
                     err, point_cloud_value = point_cloud.get_value(width, height)
                     point_cloud_value = np.array(point_cloud_value,np.int)
+                    view[height-6:height+6,width-6:width+6]= round(np.sqrt(np.sum(np.square(point_cloud_value[:3])))/10000*255)
 
-                    view[height:height+10,width:width+10]= round(np.sqrt(np.sum(np.square(point_cloud_value[:3])))/10000*255)
 
 
-            cv2.imshow("xx",view)
+            # view = cv2.GaussianBlur(view, (11, 11), 1,1)
+            cv2.imshow("view",view)
             if cv2.waitKey(1) & 0xFF == 27:
                 break
 
@@ -89,7 +92,7 @@ def main():
             # if not np.isnan(distance) and not np.isinf(distance):
             #     distance = round(distance)
             #     print("Distance to Camera at ({0}, {1}): {2} mm\n".format(x, y, distance))
-            print(time.time()-t)
+
                 # Increment the loop
 
 
