@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package uuid="host-d2dc58" version="0.0.0">
+ <names>
+  <name lang="en_US">host</name>
+ </names>
+ <descriptions>
+  <description lang="en_US">主持人</description>
+ </descriptions>
+ <supportedLanguages>
+  <language>en_US</language>
+  <language>zh_CN</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+  <language>zh_CN</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="behavior_1">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+</package>
