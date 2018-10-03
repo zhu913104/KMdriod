@@ -11,17 +11,59 @@
             }
             /*创建socket连接*/
             var socket = new WebSocket("ws://" + window.location.host + "/echo/" + $('#userid').val());
+
+	    connect();
+            
+        });
+
+	function connect(){
+            var socket = new WebSocket("ws://" + window.location.host + "/echo/" + $('#userid').val());
             socket.onopen = function () {
-                console.log('WebSocket open');//成功连接上Websocket
-            };
-            socket.onmessage = function (e) {
+   		heartCheck.start();
+            	console.log('WebSocket open');//成功连接上Websocket
+	    	window.s.onopen = function () {
+	    		heartCheck.start();
+		};
+	    };
+ 	    socket.onmessage = function (e) {
                 console.log('message: ' + e.data);//打印出服务端返回过来的数据
                 $('#messagecontainer').prepend('<p>' + e.data + '</p>');
+		heartCheck.reset();
             };
+	    socket.onclose = function () {
+	        connect();
+		console.log('websocket已关闭');
+	    };
+	    socket.onerror = function () {
+	        connect();
+	    };
+
             // Call onopen directly if socket is already open
             if (socket.readyState == WebSocket.OPEN) socket.onopen();
             window.s = socket;
-        });
+	};
+	var heartCheck = {
+	    timeout: 60000,//1s
+	    timeoutObj: null,
+	    serverTimeoutObj: null,
+	    reset: function(){
+		clearTimeout(this.timeoutObj);
+		clearTimeout(this.serverTimeoutObj);
+	　　　　 this.start();
+	    },
+	    start: function(){
+		var self = this;
+		this.timeoutObj = setTimeout(function(){
+		    window.s.send('{"message":"HeartBeat"}');
+		    self.serverTimeoutObj = setTimeout(function(){
+		        connect();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
+		    }, self.timeout)
+		}, this.timeout)
+	    },
+	}
+
+
+	
         $('#send_message').click(function () {
             //如果未连接到websocket
             if (!window.s) {
@@ -29,6 +71,9 @@
             } else {
                 window.s.send($('#message').val());//通过websocket发送数据
             }
+        });
+        $('#reconnect_websocket').click(function () {
+           connect();
         });
         $('#howhow').click(function () {
             var s = '{"qrcode":"howhow"}'
@@ -49,7 +94,7 @@
             }
         });
         $('#QR').click(function () {
-            var s = 'QRCODE'
+            var s = '{"action":"QRCODE"}'
             //如果未连接到websocket
             if (!window.s) {
                 alert("websocket未连接.");
@@ -57,6 +102,72 @@
                 window.s.send(s);//通过websocket发送数据
             }
         });
+        $('#foward').click(function () {
+            var s = '{"action":"w"}'
+            //如果未连接到websocket
+            if (!window.s) {
+                alert("websocket未连接.");
+            } else {
+                window.s.send(s);//通过websocket发送数据
+            }
+        });
+        $('#back').click(function () {
+            var s = '{"action":"s"}'
+            //如果未连接到websocket
+            if (!window.s) {
+                alert("websocket未连接.");
+            } else {
+                window.s.send(s);//通过websocket发送数据
+            }
+        });
+        $('#left').click(function () {
+            var s = '{"action":"a"}'
+            //如果未连接到websocket
+            if (!window.s) {
+                alert("websocket未连接.");
+            } else {
+                window.s.send(s);//通过websocket发送数据
+            }
+        });
+        $('#right').click(function () {
+            var s = '{"action":"d"}'
+            //如果未连接到websocket
+            if (!window.s) {
+                alert("websocket未连接.");
+            } else {
+                window.s.send(s);//通过websocket发送数据
+            }
+        });
+        $('#stop').click(function () {
+            var s = '{"action":"q"}'
+            //如果未连接到websocket
+            if (!window.s) {
+                alert("websocket未连接.");
+            } else {
+                window.s.send(s);//通过websocket发送数据
+            }
+        });
+        $('#0').click(function () {
+            var s = '{"action":"0"}'
+            //如果未连接到websocket
+            if (!window.s) {
+                alert("websocket未连接.");
+            } else {
+                window.s.send(s);//通过websocket发送数据
+            }
+        });
+
+        $('#1').click(function () {
+            var s = '{"action":"1"}'
+            //如果未连接到websocket
+            if (!window.s) {
+                alert("websocket未连接.");
+            } else {
+                window.s.send(s);//通过websocket发送数据
+            }
+        });
+
+
         $('#close_websocket').click(function () {
             if (window.s) {
                 window.s.close();//关闭websocket
@@ -68,19 +179,40 @@
     //]]></script>
 </head>
 <body>
-<br>
 <input type="hidden" id="userid" value="{{ userid }}"/>  
-<input type="text" id="message" value="Hello, World!"/>
-<button type="button" id="connect_websocket">連接 websocket</button>
-<button type="button" id="send_message">發送 message</button>
-<button type="button" id="close_websocket">關閉 websocket</button>
-<button type="button" id="howhow">howhow</button>
-<button type="button" id="csievideo">csievideo</button>
-<button type="button" id="QR">開啟QRCODE掃描</button>
+	<div style="text-align:center;background-color:#FFAC55;width:80%;height:100%;margin:0px auto;padding:10px;">
+		<div style="text-align:left;float:left;">
+			<input type="text" id="message" value="Hello, World!"/>
+			<button type="button" id="send_message">發送 message</button></div>
+		<div style="text-align:right;">
+			<button type="button" id="connect_websocket">連接 websocket</button>
+                        <br>
+			<button type="button" id="close_websocket">關閉 websocket</button></div>
+			<br>
+			<button type="button" id="reconnect_websocket">重新連接 websocket</button>
+		<div>
+			<button type="button" id="howhow">howhow</button>
+			<button type="button" id="csievideo">csievideo</button>
+		</div>
 
-<h1>Received Messages</h1>
-<div id="messagecontainer">
+		<div style="text-align:center;background-color:#FFCF78;width:150px;height:80px;">
+			<button type="button" id="foward">前</button>
+			<br>
+			<button type="button" id="right">左</button>
+			<button type="button" id="stop">停</button>
+			<button type="button" id="left">右</button>
+			<button type="button" id="back">後</button>
 
-</div>
+		</div>
+		<div style="text-align:center;background-color:#FFCF00;width:150px;height:60px;">
+                        <br>
+
+			<button type="button" id="0">0</button>
+			<button type="button" id="1">1</button>
+
+		</div>
+		<div id="messagecontainer"  style="text-align:left;background-color:#FFFFFF;font-size:13px;">
+		</div>
+	</div>
 </body>
 </html>

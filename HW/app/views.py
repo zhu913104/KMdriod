@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from dwebsocket import require_websocket
 from dwebsocket.decorators import accept_websocket,require_websocket
 import serial
+import json
 from collections import defaultdict
 # from app.qrcode_decoder import *
   
@@ -105,6 +106,11 @@ def modify_message(message):
 
 @accept_websocket
 def echo(request,userid):
+	if userid==1:
+		try:
+			ser=serial.Serial("/dev/ttyACM0",9600,timeout=1)
+		except:
+			pass
 	# ser=serial.Serial("COM3",9600,timeout=100)
 	allresult = {} 
 	allresult['userid'] = userid
@@ -120,7 +126,21 @@ def echo(request,userid):
 		for message in request.websocket:
                     
                         try:
-                            if message.decode("utf-8") == 'QRCODE':
+                            print(message)
+                            message_dict=json.loads(message.decode("utf-8"))
+                            message_dict_key=list(message_dict.keys())
+                            if message_dict_key[0]=='action':
+                                request.websocket.send((str(userid)+':'+message_dict['action']).encode("utf-8"))
+                                for i in allconn:  
+                                        if i != str(userid):  
+                                                allconn[i].send((i+":"+message_dict['action']).encode("utf-8"))
+                                        elif int(i) == 1:
+                                                try:
+                                                            serin = message+str("\n").encode()
+                                                            ser.write(serin)
+                                                except Exception as d:
+                                                            print(d)
+                                                            print("ddddd")
 				# serin = message+str("\n").encode()
 				# ser.write(serin)
 				# message=str("Server return: ").encode()+message
@@ -132,12 +152,13 @@ def echo(request,userid):
                  #                message=''
                                 pass
                             else:
-                                request.websocket.send (message)#发送消息到客户端
+                                request.websocket.send(message)#发送消息到客户端
                                 for i in allconn:  
                                         if i != str(userid):  
                                                 allconn[i].send(message) 
                         except Exception as e:
-                                pass
+                                print(e)
+                                print("EEEEEEE")
 
 
 
