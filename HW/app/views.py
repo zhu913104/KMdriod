@@ -130,27 +130,15 @@ def echo(request,userid):
                             message_dict=json.loads(message.decode("utf-8"))
                             message_dict_key=list(message_dict.keys())
                             if message_dict_key[0]=='action':
-                                request.websocket.send((str(userid)+':'+message_dict['action']).encode("utf-8"))
-                                for i in allconn:  
-                                        if i != str(userid):  
-                                                allconn[i].send((i+":"+message_dict['action']).encode("utf-8"))
-                                        elif int(i) == 1:
+                                for i in allconn:     
+                                        if int(i) == 1:
                                                 try:
                                                             serin = message+str("\n").encode()
                                                             ser.write(serin)
+                                                            allconn[i].send((message_dict['action']).encode("utf-8"))
                                                 except Exception as d:
                                                             print(d)
                                                             print("ddddd")
-				# serin = message+str("\n").encode()
-				# ser.write(serin)
-				# message=str("Server return: ").encode()+message
-                 #                message=QRCODE().encode("utf-8")
-                 #                request.websocket.send (message)#发送消息到客户端
-                 #                for i in allconn:
-                 #                        if i != str(userid):
-                 #                                allconn[i].send(message)
-                 #                message=''
-                                pass
                             else:
                                 request.websocket.send(message)#发送消息到客户端
                                 for i in allconn:  
