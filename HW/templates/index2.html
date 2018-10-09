@@ -2,7 +2,9 @@
 <html>
 <head>
     <title>django-websocket</title>
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	{% load static %}
+    <script src="{% static "js/jquery-1.11.1.min.js" %}">
+    </script>
     <script type="text/javascript">//<![CDATA[
     $(function () {
         $('#connect_websocket').click(function () {
@@ -174,6 +176,24 @@
                 window.s.send(s);//通过websocket发送数据
             }
         });
+        $('#walk').click(function () {
+            var s = '{"actions":"walk"}'
+            //如果未连接到websocket
+            if (!window.s) {
+                alert("websocket未連接.");
+            } else {
+                window.s.send(s);//通过websocket发送数据
+            }
+        });
+        $('#next').click(function () {
+            var s = '{"actions":"next"}'
+            //如果未连接到websocket
+            if (!window.s) {
+                alert("websocket未連接.");
+            } else {
+                window.s.send(s);//通过websocket发送数据
+            }
+        });
 
 
         $('#close_websocket').click(function () {
@@ -195,12 +215,14 @@
 		<div style="text-align:right;">
 			<button type="button" id="connect_websocket">連接 websocket</button>
                         <br>
-			<button type="button" id="close_websocket">關閉 websocket</button></div>
-			<br>
-			<button type="button" id="reconnect_websocket">重新連接 websocket</button>
+			<button type="button" id="close_websocket">關閉 websocket</button>
+		</div>
+			
 		<div>
 			<button type="button" id="howhow">howhow</button>
 			<button type="button" id="csievideo">csievideo</button>
+			<button type="button" id="walk">走起</button>
+			<button type="button" id="next">下一個</button>
 		</div>
 
 		<div style="text-align:center;background-color:#FFCF78;width:150px;height:80px;">
@@ -209,6 +231,7 @@
 			<button type="button" id="right">左</button>
 			<button type="button" id="stop">停</button>
 			<button type="button" id="left">右</button>
+			<br>
 			<button type="button" id="back">後</button>
 
 		</div>
