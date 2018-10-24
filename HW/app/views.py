@@ -10,7 +10,7 @@ import serial
 import json
 from collections import defaultdict
 # from app.qrcode_decoder import *
-  
+from app.demo import *
 allconn = defaultdict(list) 
 # Create your views here.
 
@@ -129,7 +129,7 @@ def echo(request,userid):
                             print(message)
                             message_dict=json.loads(message.decode("utf-8"))
                             message_dict_key=list(message_dict.keys())
-                            if message_dict_key[0]=='action':
+                            if message_dict_key[0]=='actions':
                                 for i in allconn:     
                                         if int(i) == 1:
                                                 try:
@@ -139,6 +139,8 @@ def echo(request,userid):
                                                 except Exception as d:
                                                             print(d)
                                                             print("ddddd")
+                            elif message_dict_key[0]=='demo':
+                                demo()
                             else:
                                 request.websocket.send(message)#发送消息到客户端
                                 for i in allconn:  
