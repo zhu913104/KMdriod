@@ -6,7 +6,7 @@ from websocket import create_connection
 turn_90=3
 turn_180=6
 one_step=5
-ws = create_connection("ws://192.168.141.16:8887")
+ws = create_connection("ws://192.168.1.1:8887")
 
 def turn_right(ser,times):
 	ser.write('d'.encode())
