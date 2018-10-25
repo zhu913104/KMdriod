@@ -176,8 +176,8 @@
                 window.s.send(s);//通过websocket发送数据
             }
         });
-        $('#walk').click(function () {
-            var s = '{"action":"walk"}'
+        $('#demo').click(function () {
+            var s = '{"demo":"demo"}'
             //如果未连接到websocket
             if (!window.s) {
                 alert("websocket未連接.");
@@ -221,7 +221,7 @@
 		<div>
 			<button type="button" id="howhow">howhow</button>
 			<button type="button" id="csievideo">csievideo</button>
-			<button type="button" id="walk">走起</button>
+			<button type="button" id="demo">走起</button>
 			<button type="button" id="next">下一個</button>
 		</div>
 

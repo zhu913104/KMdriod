@@ -3,29 +3,52 @@ import time
 from websocket import create_connection
 
 
-turn_90=3
-turn_180=6
-one_step=5
+turn_90=4.5
+turn_180=9.1
+one_step=30
 ws = create_connection("ws://192.168.1.1:8887")
 
-def turn_right(ser,times):
-	ser.write('d'.encode())
-	time.sleep(times)
-	ser.write('s'.encode())
-	time.sleep(0.1)
+def forward(ser):
+	ser.write("w".encode())
+	ser.flushInput()
+	ddd = ser.readline()
+	while ddd != 'forward\r\n'.encode():
+		ser.write("w".encode())
+		ddd = ser.readline()
+def right(ser):
+	ser.write("a".encode())
+	ser.flushInput()
+	ddd = ser.readline()
+	while ddd != 'right\r\n'.encode():
+		ser.write("a".encode())
+		ddd = ser.readline()
 
 
-def turn_left(ser,times):
-	ser.write('a'.encode())
-	time.sleep(times)
-	ser.write('s'.encode())
-	time.sleep(0.1)
+def left(ser):
+	ser.write("d".encode())
+	ser.flushInput()
+	ddd = ser.readline()
+	while ddd != 'left\r\n'.encode():
+		ser.write("d".encode())
+		ddd = ser.readline()
 
-def forward(ser,times):
-	ser.write('w'.encode())
-	time.sleep(times)   #
-	ser.write('s'.encode())
-	time.sleep(0.1)
+
+def back(ser):
+	ser.write("s".encode())
+	ser.flushInput()
+	ddd = ser.readline()
+	while ddd != 'back\r\n'.encode():
+		ser.write("s".encode())
+		ddd = ser.readline()
+
+def stopp(ser):
+	ser.write("q".encode())
+	ser.flushInput()
+	ddd = ser.readline()
+	while ddd != 'stop\r\n'.encode():
+		ser.write("q".encode())
+		ddd = ser.readline()
+
 
 def demo():
 	try:
@@ -34,191 +57,423 @@ def demo():
 		ser.close()
 		time.sleep(2)
 		ser=serial.Serial("/dev/ttyACM0",9600,timeout=1)
-	#### 1-1	
-	turn_left(ser,turn_90)
-	forward(ser,10)
-	time.sleep(1)
-	turn_left(ser,turn_180)
-	###
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/183"}'.encode())
+
+
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=1"}'.encode())
 	result =  ws.recv()
-	while result=='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
+		result =  ws.recv()
+
+	#### 1-1	
+	right(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
+	forward(ser)
+	time.sleep(one_step)
+	stopp(ser)
+
+	right(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
+	forward(ser)
+	time.sleep(one_step)
+	stopp(ser)
+
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+	
+	time.sleep(2)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+	
+	###
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=1"}'.encode())
+	result =  ws.recv()
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
 
 
 	##### 1-2
-	turn_right(ser,turn_90)
-	forward(ser,one_step)
-	turn_right(ser,turn_90)
-	time.sleep(1)
-	turn_right(ser,turn_90)
+	right(ser)
+	time.sleep(turn_180)
+	stopp(ser)
+	
+	forward(ser)
+	time.sleep(one_step)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+	
+	time.sleep(2)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
 	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/183"}'.encode())
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=2"}'.encode())
 	result =  ws.recv()
-	while result=='{"action": "next"}':
+	while result!='{"action": "next"}':
 		result =  ws.recv()
 
 	##### 1-3
-	turn_right(ser,turn_180)
-	forward(ser,one_step)
-	turn_right(ser,turn_90)
-	time.sleep(1)
-	turn_right(ser,turn_90)
+	right(ser)
+	time.sleep(turn_180)
+	stopp(ser)
+	
+	forward(ser)
+	time.sleep(one_step)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+	
+	time.sleep(2)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
 	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/183"}'.encode())
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=3"}'.encode())
 	result =  ws.recv()
-	while result=='{"action": "next"}':
+	while result!='{"action": "next"}':
 		result =  ws.recv()
 
 	##### 1-4
-	turn_right(ser,turn_180)
-	forward(ser,one_step*2)
-	turn_right(ser,turn_90)
-	time.sleep(1)
-	turn_right(ser,turn_90)
+	right(ser)
+	time.sleep(turn_180)
+	stopp(ser)
+	
+	forward(ser)
+	time.sleep(one_step)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+	
+	time.sleep(2)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
 	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/183"}'.encode())
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=4"}'.encode())
+	result =  ws.recv()
+	while result!='{"action": "next"}':
+		result =  ws.recv()
+
+
+	##### 5
+	right(ser)
+	time.sleep(turn_180)
+	stopp(ser)
+	
+	forward(ser)
+	time.sleep(one_step)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+	
+	time.sleep(2)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
+	####
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=5"}'.encode())
+	result =  ws.recv()
+	while result!='{"action": "next"}':
+		result =  ws.recv()
+
+	##### 6
+	right(ser)
+	time.sleep(turn_180)
+	stopp(ser)
+	
+	forward(ser)
+	time.sleep(15)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+	
+	forward(ser)
+	time.sleep(20)
+	stopp(ser)
+	
+	
+	right(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+	
+	time.sleep(2)
+	
+	right(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
+	####
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=6"}'.encode())
+	result =  ws.recv()
+	while result!='{"action": "next"}':
+		result =  ws.recv()
+
+	##### 7
+	forward(ser)
+	time.sleep(one_step)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+		
+	time.sleep(2)
+
+	right(ser)
+	time.sleep(180)
+	stopp(ser)
+	
+	####
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=7"}'.encode())
 	result =  ws.recv()
 	while result=='{"action": "next"}':
 		result =  ws.recv()
 
-	##### 2-1
-	turn_right(ser,turn_180)
-	forward(ser,10)
-	turn_right(ser,turn_90)
-	forward(ser,3)
-	turn_left(ser,turn_90)
-	forward(ser,3)
-	time.sleep(1)
-	turn_right(ser,turn_90/2)
+	##### 8
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)	
+		
+	forward(ser)
+	time.sleep(one_step)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+		
+	time.sleep(2)
+
+	right(ser)
+	time.sleep(180)
+	stopp(ser)
+	
 	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/183"}'.encode())
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=8"}'.encode())
 	result =  ws.recv()
 	while result=='{"action": "next"}':
 		result =  ws.recv()
 
-	##### 2-2
-	turn_right(ser,turn_90/2)
-	forward(ser,one_step)
-	turn_right(ser,turn_90)
-	time.sleep(1)
-	turn_right(ser,turn_180)
+
+	##### 9
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)	
+		
+	forward(ser)
+	time.sleep(one_step)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+		
+	time.sleep(2)
+
+	right(ser)
+	time.sleep(turn_180)
+	stopp(ser)
+	
 	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/910"}'.encode())
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=9"}'.encode())
 	result =  ws.recv()
 	while result=='{"action": "next"}':
 		result =  ws.recv()
 
-	##### 2-3
-	turn_right(ser,turn_90)
-	forward(ser,one_step)
-	turn_right(ser,turn_90)
-	time.sleep(1)
-	turn_right(ser,turn_180)
+	##### 10
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)	
+		
+	forward(ser)
+	time.sleep(17)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(3)
+	stopp(ser)
+		
+	time.sleep(2)
+
+	right(ser)
+	time.sleep(turn_180)
+	stopp(ser)
+	
 	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/915"}'.encode())
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=10"}'.encode())
 	result =  ws.recv()
 	while result=='{"action": "next"}':
 		result =  ws.recv()
 
-	##### 2-4
-	turn_right(ser,turn_90)
-	forward(ser,one_step)
-	turn_right(ser,turn_90)
-	time.sleep(1)
-	turn_right(ser,turn_180)
+
+	##### 11
+
+	forward(ser)
+	time.sleep(13)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(1.3)
+	stopp(ser)
+
+	forward(ser)
+	time.sleep(23)
+	stopp(ser)
+
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+		
+	time.sleep(2)
+
+	left(ser)
+	time.sleep(turn_180)
+	stopp(ser)
+	
 	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/927"}'.encode())
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=11"}'.encode())
 	result =  ws.recv()
 	while result=='{"action": "next"}':
 		result =  ws.recv()
 
-	##### 2-5
-	turn_right(ser,turn_90)
-	forward(ser,one_step)
-	turn_right(ser,turn_90)
-	time.sleep(1)
-	turn_right(ser,turn_90)
+	##### 12
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
+	forward(ser)
+	time.sleep(58)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
+		
+	time.sleep(2)
+
+	left(ser)
+	time.sleep(turn_180)
+	stopp(ser)
+	
 	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/929"}'.encode())
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=12"}'.encode())
 	result =  ws.recv()
 	while result=='{"action": "next"}':
 		result =  ws.recv()
 
-	##### 3-1
-	forward(ser,10)
-	turn_right(ser,turn_90)
-	forward(ser,10)
-	turn_right(ser,turn_90)
-	forward(ser,one_step)
-	turn_right(ser,turn_90)
-	time.sleep(1)
-	turn_right(ser,turn_90)
+	##### 13
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
+	forward(ser)
+	time.sleep(one_step)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
+		
+	time.sleep(2)
+
+	left(ser)
+	time.sleep(turn_180)
+	stopp(ser)
+	
 	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/919"}'.encode())
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=13"}'.encode())
 	result =  ws.recv()
 	while result=='{"action": "next"}':
 		result =  ws.recv()
 
-	##### 3-2
-	turn_right(ser,turn_180)
-	forward(ser,one_step)
-	turn_right(ser,turn_90)
-	time.sleep(1)
-	turn_right(ser,turn_90)
+	##### 14
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
+	forward(ser)
+	time.sleep(one_step)
+	stopp(ser)
+	
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+
+		
+	time.sleep(2)
+
+	left(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+	
 	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/916"}'.encode())
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=14"}'.encode())
 	result =  ws.recv()
 	while result=='{"action": "next"}':
 		result =  ws.recv()
 
-	##### 3-3
-	turn_right(ser,turn_180)
-	forward(ser,one_step)
-	turn_right(ser,turn_90)
-	time.sleep(1)
-	turn_right(ser,turn_90)
-	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/918"}'.encode())
-	result =  ws.recv()
-	while result=='{"action": "next"}':
-		result =  ws.recv()
+	##### 15
+	left(ser)
+	time.sleep(turn_180)
+	stopp(ser)
 
-	##### 3-4
-	turn_right(ser,turn_180)
-	forward(ser,one_step)
-	turn_right(ser,turn_90)
-	time.sleep(1)
-	turn_right(ser,turn_90)
-	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/908"}'.encode())
-	result =  ws.recv()
-	while result=='{"action": "next"}':
-		result =  ws.recv()
+	forward(ser)
+	time.sleep(17)
+	stopp(ser)
+	
+	right(ser)
+	time.sleep(turn_90)
+	stopp(ser)
+	
+	forward(ser)
+	time.sleep(100)
+	stopp(ser)
+		
+	left(ser)
+	time.sleep(3.5)
+	stopp(ser)
 
-	##### 3-5
-	turn_right(ser,turn_180)
-	forward(ser,one_step)
-	turn_right(ser,turn_90)
-	time.sleep(1)
-	turn_right(ser,turn_90)
-	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/914"}'.encode())
-	result =  ws.recv()
-	while result=='{"action": "next"}':
-		result =  ws.recv()
+	forward(ser)
+	time.sleep(10)
+	stopp(ser)
 
-	##### 4-1
-	turn_right(ser,turn_90)
-	forward(ser,one_step)
-	turn_right(ser,turn_90)
-	forward(ser,one_step)
-	turn_left(ser,turn_90)
-	forward(ser,one_step)
-	time.sleep(1)
-	turn_left(ser,turn_90)
+	time.sleep(2)
+
+	left(ser)
+	time.sleep(6)
+	stopp(ser)
+	
 	####
-	ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/183"}'.encode())
+	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=14"}'.encode())
 	result =  ws.recv()
 	while result=='{"action": "next"}':
 		result =  ws.recv()
