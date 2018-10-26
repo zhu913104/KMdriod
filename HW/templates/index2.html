@@ -15,11 +15,12 @@
             var socket = new WebSocket("ws://" + window.location.host + "/echo/" + $('#userid').val());
 
 	    connect();
+	    connect('192.168.1.1:8887');
             
         });
 
-	function connect(){
-            var socket = new WebSocket("ws://" + window.location.host + "/echo/" + $('#userid').val());
+	function connect(ip=window.location.host){
+            var socket = new WebSocket("ws://" +ip + "/echo/" + $('#userid').val());
             socket.onopen = function () {
    		heartCheck.start();
             	console.log('WebSocket open');//成功连接上Websocket
@@ -42,7 +43,12 @@
 
             // Call onopen directly if socket is already open
             if (socket.readyState == WebSocket.OPEN) socket.onopen();
+	    if (ip==window.location.host){
             window.s = socket;
+		}
+	    else {
+	    window.b=socket;
+		}
 	};
 	var heartCheck = {
 	    timeout: 1000,//60s
@@ -157,27 +163,23 @@
                 window.s.send(s);//通过websocket发送数据
             }
         });
-        $('#0').click(function () {
-            var s = '{"actions":"0"}'
-            //如果未连接到websocket
-            if (!window.s) {
+        $('#act').change(function () {
+		//如果未连接到websocket
+            if (!window.b) {
                 alert("websocket未連接.");
             } else {
-                window.s.send(s);//通过websocket发送数据
+		if(this.checked){
+		window.b.send('{"act":"1"}');
+		}
+		else{
+		window.b.send('{"act":"0"}');
+			}
             }
         });
 
-        $('#1').click(function () {
-            var s = '{"actions":"1"}'
-            //如果未连接到websocket
-            if (!window.s) {
-                alert("websocket未連接.");
-            } else {
-                window.s.send(s);//通过websocket发送数据
-            }
-        });
+
         $('#demo').click(function () {
-            var s = '{"demo":"demo"}'
+            var s = '{"demo":"gogo"}'
             //如果未连接到websocket
             if (!window.s) {
                 alert("websocket未連接.");
@@ -210,7 +212,7 @@
 <input type="hidden" id="userid" value="{{ userid }}"/>  
 	<div style="text-align:center;background-color:#FFAC55;width:80%;height:100%;margin:0px auto;padding:10px;">
 		<div style="text-align:left;float:left;">
-			<input type="text" id="message" value="Hello, World!"/>
+			<input type="text" id="message" value='{"demo":""}'/>
 			<button type="button" id="send_message">發送 message</button></div>
 		<div style="text-align:right;">
 			<button type="button" id="connect_websocket">連接 websocket</button>
@@ -238,8 +240,7 @@
 		<div style="text-align:center;background-color:#FFCF00;width:150px;height:60px;">
                         <br>
 
-			<button type="button" id="0">0</button>
-			<button type="button" id="1">1</button>
+			<input type="checkbox" id="act" value="1" />
 
 		</div>
 		<div id="messagecontainer"  style="text-align:left;background-color:#FFFFFF;font-size:13px;">

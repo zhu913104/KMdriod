@@ -140,7 +140,7 @@ def echo(request,userid):
                                                             print(d)
                                                             print("ddddd")
                             elif message_dict_key[0]=='demo':
-                                demo()
+                                demo(message_dict["demo"])
                             else:
                                 request.websocket.send(message)#发送消息到客户端
                                 for i in allconn:  

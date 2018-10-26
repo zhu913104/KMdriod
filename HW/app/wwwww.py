@@ -1,9 +1,12 @@
 from websocket import create_connection
-ws = create_connection("ws://192.168.141.116:8887")
-print("Sending 'Hello, World'...")
-ws.send('{"qrcode":"http://appls.ncut.edu.tw/KM/WebApi/Robot/GetPepperInfoV2/908"}'.encode())
-print("Sent")
-print("Receiving...")
-result =  ws.recv()
-print("Received '%s'" % result)
-ws.close()
+ws = create_connection("ws://192.168.1.1:8887")
+k=1
+while True:
+	result =  ws.recv()
+
+	print('act' in result)
+	if result =='{"act":"1"}':
+		k=1
+	elif result=='{"act":"0"}':
+		k=0
+	print("Received '%s'" % result)
