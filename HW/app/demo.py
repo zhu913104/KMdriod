@@ -59,11 +59,6 @@ def demo():
 		ser=serial.Serial("/dev/ttyACM0",9600,timeout=1)
 
 
-	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=1"}'.encode())
-	result =  ws.recv()
-	while result !='{"action": "next"}':
-		print(result)
-		result =  ws.recv()
 
 	#### 1-1	
 
@@ -79,6 +74,7 @@ def demo():
 	
 	###
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=1"}'.encode())
+	result = ' '
 	result =  ws.recv()
 	while result !='{"action": "next"}':
 		print(result)
@@ -106,10 +102,11 @@ def demo():
 
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=2"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result!='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
-
 	##### 1-3
 	left(ser)
 	time.sleep(turn_90)
@@ -131,8 +128,10 @@ def demo():
 
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=3"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result!='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
 
 	##### 1-4
@@ -156,10 +155,11 @@ def demo():
 
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=4"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result!='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
-
 
 	##### 5
 	left(ser)
@@ -182,10 +182,11 @@ def demo():
 
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=5"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result!='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
-
 	##### 6
 	left(ser)
 	time.sleep(turn_90)
@@ -216,8 +217,10 @@ def demo():
 
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=6"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result!='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
 
 	##### 7
@@ -232,13 +235,15 @@ def demo():
 	time.sleep(2)
 
 	right(ser)
-	time.sleep(180)
+	time.sleep(turn_180)
 	stopp(ser)
 	
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=7"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result=='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
 
 	##### 8
@@ -257,15 +262,16 @@ def demo():
 	time.sleep(2)
 
 	right(ser)
-	time.sleep(180)
+	time.sleep(turn_180)
 	stopp(ser)
 	
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=8"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result=='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
-
 
 	##### 9
 	left(ser)
@@ -288,8 +294,10 @@ def demo():
 	
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=9"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result=='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
 
 	##### 10
@@ -313,8 +321,10 @@ def demo():
 	
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=10"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result=='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
 
 
@@ -344,8 +354,10 @@ def demo():
 	
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=11"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result=='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
 
 	##### 12
@@ -370,10 +382,11 @@ def demo():
 	
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=12"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result=='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
-
 	##### 13
 	left(ser)
 	time.sleep(turn_90)
@@ -396,8 +409,10 @@ def demo():
 	
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=13"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result=='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
 
 	##### 14
@@ -422,8 +437,10 @@ def demo():
 	
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=14"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result=='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
 
 	##### 15
@@ -459,8 +476,10 @@ def demo():
 	
 	####
 	ws.send('{"qrcode":"http://192.168.1.1:8080/qrcode.php?qrcode=14"}'.encode())
+	result = ' '
 	result =  ws.recv()
-	while result=='{"action": "next"}':
+	while result !='{"action": "next"}':
+		print(result)
 		result =  ws.recv()
 
 
