@@ -66,30 +66,15 @@ def demo():
 		result =  ws.recv()
 
 	#### 1-1	
-	right(ser)
-	time.sleep(turn_90)
-	stopp(ser)
-
-	forward(ser)
-	time.sleep(one_step)
-	stopp(ser)
-
-	right(ser)
-	time.sleep(turn_90)
-	stopp(ser)
-
-	forward(ser)
-	time.sleep(one_step)
-	stopp(ser)
 
 	left(ser)
-	time.sleep(turn_90)
+	time.sleep(turn_180)
 	stopp(ser)
 	
 	time.sleep(2)
 	
-	left(ser)
-	time.sleep(turn_90)
+	right(ser)
+	time.sleep(turn_180)
 	stopp(ser)
 	
 	###
@@ -101,8 +86,8 @@ def demo():
 
 
 	##### 1-2
-	right(ser)
-	time.sleep(turn_180)
+	left(ser)
+	time.sleep(turn_90)
 	stopp(ser)
 	
 	forward(ser)
@@ -115,8 +100,8 @@ def demo():
 	
 	time.sleep(2)
 	
-	left(ser)
-	time.sleep(turn_90)
+	right(ser)
+	time.sleep(turn_180)
 	stopp(ser)
 
 	####
@@ -126,8 +111,8 @@ def demo():
 		result =  ws.recv()
 
 	##### 1-3
-	right(ser)
-	time.sleep(turn_180)
+	left(ser)
+	time.sleep(turn_90)
 	stopp(ser)
 	
 	forward(ser)
@@ -140,8 +125,8 @@ def demo():
 	
 	time.sleep(2)
 	
-	left(ser)
-	time.sleep(turn_90)
+	right(ser)
+	time.sleep(turn_180)
 	stopp(ser)
 
 	####
@@ -151,8 +136,8 @@ def demo():
 		result =  ws.recv()
 
 	##### 1-4
-	right(ser)
-	time.sleep(turn_180)
+	left(ser)
+	time.sleep(turn_90)
 	stopp(ser)
 	
 	forward(ser)
@@ -165,8 +150,8 @@ def demo():
 	
 	time.sleep(2)
 	
-	left(ser)
-	time.sleep(turn_90)
+	right(ser)
+	time.sleep(turn_180)
 	stopp(ser)
 
 	####
@@ -177,8 +162,8 @@ def demo():
 
 
 	##### 5
-	right(ser)
-	time.sleep(turn_180)
+	left(ser)
+	time.sleep(turn_90)
 	stopp(ser)
 	
 	forward(ser)
@@ -191,8 +176,8 @@ def demo():
 	
 	time.sleep(2)
 	
-	left(ser)
-	time.sleep(turn_90)
+	right(ser)
+	time.sleep(turn_180)
 	stopp(ser)
 
 	####
@@ -202,8 +187,8 @@ def demo():
 		result =  ws.recv()
 
 	##### 6
-	right(ser)
-	time.sleep(turn_180)
+	left(ser)
+	time.sleep(turn_90)
 	stopp(ser)
 	
 	forward(ser)
