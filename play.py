@@ -3,12 +3,13 @@ import sys
 
 
 step = sys.argv[1]
-ws = create_connection("ws://172.16.1.3:8887")
+serverip = '192.168.141.16'
+ws = create_connection("ws://"+serverip+":8887")
 
 
 
 def play(step):
-	url = '{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode='+step+'"}'
+	url = '{"qrcode":"http://'+serverip+':8080/qrcode.php?qrcode='+step+'"}'
 	ws.send(url.encode())
 
 

@@ -8,7 +8,11 @@ step = sys.argv[1]
 turn_90=4.5
 turn_180=9.1
 one_step=30
-ws = create_connection("ws://172.16.1.3:8887")
+
+serverip = '192.168.141.16'
+ws = create_connection("ws://"+serverip+":8887")
+
+
 
 
 def forward(ser):
@@ -110,7 +114,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 	
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=14"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=15"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -134,7 +138,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 	
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=14"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=14"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -177,7 +181,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 	
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=13"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=13"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -213,7 +217,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 	
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=12"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=12"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -246,7 +250,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 	
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=11"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=11"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -280,7 +284,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 	
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=10"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=10"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -319,7 +323,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 	
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=9"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=9"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -352,7 +356,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 	
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=8"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=8"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -386,7 +390,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 	
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=7"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=7"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -421,7 +425,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=6"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=6"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -449,7 +453,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=5"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=5"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -490,7 +494,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=4"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=4"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -520,7 +524,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=3"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=3"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -551,7 +555,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 
 		####
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=2"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=2"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
@@ -585,7 +589,7 @@ def demo(thing="gogo"):
 		stopp(ser)
 	
 		###
-		ws.send('{"qrcode":"http://172.16.1.3:8080/qrcode.php?qrcode=1"}'.encode())
+		ws.send(('{"qrcode":"http://'+serverip+'8080/qrcode.php?qrcode=1"}').encode())
 		result = ' '
 		result =  ws.recv()
 		while result !='{"action": "next"}':
